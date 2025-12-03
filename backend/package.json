@@ -1,0 +1,55 @@
+{
+    "name": "afrobeats-backend",
+    "version": "1.0.0",
+    "description": "Backend API for AfroBeats Royalty Protocol",
+    "main": "src/server.js",
+    "scripts": {
+        "start": "node src/server.js",
+        "dev": "nodemon src/server.js",
+        "test": "jest --coverage",
+        "test:watch": "jest --watch",
+        "lint": "eslint src/",
+        "lint:fix": "eslint src/ --fix"
+    },
+    "keywords": [
+        "afrobeats",
+        "royalties",
+        "blockchain",
+        "web3"
+    ],
+    "author": "AfroBeats Protocol Team",
+    "license": "MIT",
+    "dependencies": {
+        "@prisma/client": "^5.7.1",
+        "@sentry/node": "^7.91.0",
+        "@sentry/tracing": "^7.91.0",
+        "axios": "^1.6.5",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "ethers": "^6.9.0",
+        "express": "^4.18.2",
+        "express-rate-limit": "^7.1.5",
+        "express-validator": "^7.0.1",
+        "form-data": "^4.0.5",
+        "helmet": "^7.1.0",
+        "ipfs-http-client": "^60.0.1",
+        "multer": "^2.0.2",
+        "node-cron": "^4.2.1",
+        "pg": "^8.11.3",
+        "prisma": "^5.7.1",
+        "redis": "^4.6.12",
+        "winston": "^3.11.0"
+    },
+    "devDependencies": {
+        "eslint": "^8.56.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-plugin-import": "^2.29.1",
+        "jest": "^29.7.0",
+        "nodemon": "^3.0.2",
+        "supertest": "^6.3.3"
+    },
+    "engines": {
+        "node": ">=18.0.0",
+        "npm": ">=9.0.0"
+    }
+}

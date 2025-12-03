@@ -1,0 +1,223 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============= CORE MODELS =============
+
+model Song {
+  id                    String   @id @default(uuid())
+  tokenId               Int      @unique
+  title                 String
+  artists               String[]
+  isrc                  String   @unique
+  genres                String[]
+  ipfsURI               String
+  fingerprintHash       String
+  registrationTimestamp DateTime @default(now())
+  isDisputed            Boolean  @default(false)
+  
+  // Relations
+  streamingData         StreamingData[]
+  royaltyPayments       RoyaltyPayment[]
+  predictions           EarningsPrediction[]
+  loans                 Loan[]
+  
+  // Indexes
+  @@index([isrc])
+  @@index([tokenId])
+  @@index([registrationTimestamp])
+}
+
+model StreamingData {
+  id                String   @id @default(uuid())
+  songId            String
+  song              Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+  
+  date              DateTime
+  platform          String   // 'spotify', 'apple_music', 'youtube'
+  streams           Int
+  earnings          Decimal  @db.Decimal(18, 6)
+  
+  createdAt         DateTime @default(now())
+  
+  @@unique([songId, date, platform])
+  @@index([songId, date])
+  @@index([date])
+}
+
+model RoyaltyPayment {
+  id                String   @id @default(uuid())
+  songId            String
+  song              Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+  
+  beneficiary       String   // Ethereum address
+  amount            Decimal  @db.Decimal(18, 6)
+  txHash            String   @unique
+  blockNumber       Int
+  timestamp         DateTime
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([songId])
+  @@index([beneficiary])
+  @@index([timestamp])
+}
+
+// ============= LENDING MODELS =============
+
+model Loan {
+  id                String   @id @default(uuid())
+  loanId            Int      @unique // On-chain loan ID
+  
+  songId            String
+  song              Song     @relation(fields: [songId], references: [id])
+  
+  borrower          String   // Ethereum address
+  principal         Decimal  @db.Decimal(18, 6)
+  interestRate      Int      // Basis points
+  duration          Int      // Seconds
+  
+  status            String   // 'pending', 'active', 'repaid', 'liquidated'
+  healthFactor      Decimal? @db.Decimal(5, 2)
+  
+  startedAt         DateTime?
+  dueAt             DateTime?
+  repaidAt          DateTime?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relations
+  repayments        LoanRepayment[]
+  
+  @@index([borrower])
+  @@index([status])
+  @@index([dueAt])
+}
+
+model LoanRepayment {
+  id                String   @id @default(uuid())
+  loanId            String
+  loan              Loan     @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  
+  amount            Decimal  @db.Decimal(18, 6)
+  principal         Decimal  @db.Decimal(18, 6)
+  interest          Decimal  @db.Decimal(18, 6)
+  
+  txHash            String   @unique
+  timestamp         DateTime
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([loanId])
+  @@index([timestamp])
+}
+
+model EarningsPrediction {
+  id                String   @id @default(uuid())
+  songId            String
+  song              Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+  
+  projectedAmount   Decimal  @db.Decimal(18, 6)
+  confidence        Int      // Basis points (10000 = 100%)
+  duration          Int      // Seconds
+  provider          String   // Address that submitted prediction
+  
+  timestamp         DateTime
+  createdAt         DateTime @default(now())
+  
+  @@index([songId, timestamp])
+}
+
+// ============= USER & AUTH MODELS =============
+
+model User {
+  id                String   @id @default(uuid())
+  walletAddress     String   @unique
+  email             String?  @unique
+  
+  // Profile
+  artistName        String?
+  bio               String?
+  avatarUrl         String?
+  verified          Boolean  @default(false)
+  
+  // Stats (cached from blockchain)
+  totalSongs        Int      @default(0)
+  totalEarnings     Decimal  @default(0) @db.Decimal(18, 6)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relations
+  sessions          Session[]
+  
+  @@index([walletAddress])
+  @@index([email])
+}
+
+model Session {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  token             String   @unique
+  expiresAt          DateTime
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([userId])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+// ============= ANALYTICS & CACHE MODELS =============
+
+model AnalyticsSnapshot {
+  id                String   @id @default(uuid())
+  
+  date              DateTime @unique
+  
+  // Platform-wide metrics
+  totalSongs        Int
+  totalStreams      BigInt
+  totalEarnings     Decimal  @db.Decimal(18, 6)
+  activeArtists     Int
+  
+  // Lending metrics
+  totalLoans        Int
+  totalBorrowed     Decimal  @db.Decimal(18, 6)
+  avgHealthFactor   Decimal? @db.Decimal(5, 2)
+  
+  createdAt         DateTime @default(now())
+  
+  @@index([date])
+}
+
+// ============= AUDIT LOG =============
+
+model AuditLog {
+  id                String   @id @default(uuid())
+  
+  action            String   // 'song_registered', 'loan_requested', 'payment_processed'
+  actor             String   // Ethereum address or 'system'
+  metadata          Json?
+  
+  txHash            String?
+  ipAddress         String?
+  userAgent         String?
+  
+  timestamp         DateTime @default(now())
+  
+  @@index([actor])
+  @@index([action])
+  @@index([timestamp])
+}

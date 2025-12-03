@@ -1,0 +1,30 @@
+{
+    "name": "afrobeats-royalty-protocol",
+    "version": "1.0.0",
+    "description": "AfroBeats Royalty Protocol - Smart Contracts",
+    "scripts": {
+        "compile": "hardhat compile",
+        "deploy": "hardhat run scripts/deploy.js",
+        "deploy:camp": "hardhat run scripts/deploy.js --network campTestnet",
+        "test": "hardhat test",
+        "node": "hardhat node"
+    },
+    "keywords": [
+        "afrobeats",
+        "royalties",
+        "blockchain",
+        "smart-contracts"
+    ],
+    "author": "AfroBeats Protocol Team",
+    "license": "MIT",
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+        "@openzeppelin/hardhat-upgrades": "^3.0.0",
+        "hardhat": "^2.19.0"
+    },
+    "dependencies": {
+        "@openzeppelin/contracts": "^5.0.0",
+        "@openzeppelin/contracts-upgradeable": "^5.0.0",
+        "dotenv": "^16.3.1"
+    }
+}
