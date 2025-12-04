@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Search, Music, Play, MoreVertical } from 'lucide-react';
+import { CampModal } from '@campnetwork/origin/react';
 
 export default function MusicPage() {
     return (
@@ -13,10 +14,15 @@ export default function MusicPage() {
                     <h2 className="text-3xl font-bold tracking-tight">My Music</h2>
                     <p className="text-muted-foreground">Manage your registered tracks and IP assets</p>
                 </div>
-                <Button>
-                    <Plus className="mr-2 h-4 w-4" />
-                    Register New Track
-                </Button>
+
+
+                <div className="flex gap-2">
+                    <CampModal />
+                    <Button>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Register New Track
+                    </Button>
+                </div>
             </div>
 
             <div className="flex items-center gap-4">

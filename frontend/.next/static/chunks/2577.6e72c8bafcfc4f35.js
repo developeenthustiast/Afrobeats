@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[2577],{12577:function(e,n,t){t.d(n,{createPublicClient:function(){return i.v},defineChain:function(){return u},http:function(){return r.d}});var i=t(34858),r=t(78722);function u(e){return{formatters:void 0,fees:void 0,serializers:void 0,...e}}}}]);

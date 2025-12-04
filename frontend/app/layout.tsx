@@ -24,6 +24,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 
 // ... imports
 
+import { CampProvider } from "@/components/providers/camp-provider"
+
 export default function RootLayout({
     children,
 }: {
@@ -32,14 +34,18 @@ export default function RootLayout({
     return (
         <html lang="en" className={cn(inter.variable, spaceGrotesk.variable)} suppressHydrationWarning>
             <body className="min-h-screen bg-background font-sans antialiased text-foreground selection:bg-indigo-500/30">
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="dark"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    {children}
-                </ThemeProvider>
+
+
+                <CampProvider>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="dark"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        {children}
+                    </ThemeProvider>
+                </CampProvider>
             </body>
         </html>
     )
