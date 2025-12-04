@@ -1,7 +1,7 @@
 # AfroBeats Royalty Protocol
 
 A decentralized intellectual property registry and royalty distribution platform for African music, built on Camp Network blockchain with AI-powered plagiarism detection.
-## Demo website: https://afrobeats-royalty-protocol-fi6uovv99-hamzasprojects.vercel.app/
+## Demo website: https://afrobeats1.vercel.app
 ## 🌟 Features
 
 ### Core Protocol
