@@ -34,7 +34,7 @@ contract IPFiLoanManager is Ownable, ReentrancyGuard, Pausable {
     using SafeERC20 for IERC20;
 
     /// @notice Loan status enum
-    enum Loan Status { Pending, Active, Repaid, Liquidated, Defaulted }
+    enum LoanStatus { Pending, Active, Repaid, Liquidated, Defaulted }
 
     /// @notice Loan structure
     struct Loan {
@@ -168,7 +168,7 @@ contract IPFiLoanManager is Ownable, ReentrancyGuard, Pausable {
         if (tokenToActiveLoan[tokenId] != 0) revert TokenAlreadyCollateralized();
 
         // Validate loan amount
-        if (amount < minLoanAmount || amount > max LoanAmount) revert InvalidAmount();
+        if (amount < minLoanAmount || amount > maxLoanAmount) revert InvalidAmount();
 
         // Get projected earnings
         (uint256 projected, uint256 confidence) = streamOracle.predictEarnings(tokenId, duration * 2); // 2x for safety margin

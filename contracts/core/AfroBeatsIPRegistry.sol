@@ -294,11 +294,4 @@ contract AfroBeatsIPRegistry is
      * @dev Required override for UUPS
      */
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
-
-    /**
-     * @dev Override _exists for OpenZeppelin v5 compatibility
-     */
-    function _exists(uint256 tokenId) internal view returns (bool) {
-        return _ownerOf(tokenId) != address(0);
-    }
 }
