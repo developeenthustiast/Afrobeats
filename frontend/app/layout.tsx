@@ -16,7 +16,7 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata = {
-    title: 'SenseForge | AfroBeats Royalty Protocol',
+    title: 'AfroBeats Protocol | Royalty Management & IPFi',
     description: 'Enterprise-grade royalty management and IPFi lending for African artists',
 }
 
@@ -34,7 +34,7 @@ export default function RootLayout({
             <body className="min-h-screen bg-background font-sans antialiased text-foreground selection:bg-indigo-500/30">
                 <ThemeProvider
                     attribute="class"
-                    defaultTheme="system"
+                    defaultTheme="dark"
                     enableSystem
                     disableTransitionOnChange
                 >

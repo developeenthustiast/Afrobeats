@@ -1,8 +1,1 @@
-{
-  "/_not-found/page": "/_not-found",
-  "/page": "/",
-  "/(dashboard)/analytics/page": "/analytics",
-  "/(dashboard)/lending/page": "/lending",
-  "/(dashboard)/monitoring/page": "/monitoring",
-  "/(dashboard)/page": "/"
-}
+{"/_not-found/page":"/_not-found","/page":"/","/dashboard/music/page":"/dashboard/music","/dashboard/analytics/page":"/dashboard/analytics","/dashboard/page":"/dashboard","/dashboard/lending/page":"/dashboard/lending"}
