@@ -108,7 +108,7 @@ export function useActiveLoans(address: `0x${string}` | undefined) {
         },
     });
 
-    const loans = loansData?.map((result, index) => {
+    const loans = loansData?.map((result: any, index: number) => {
         if (!result.result) return null;
 
         const loan = result.result as any;

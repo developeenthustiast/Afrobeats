@@ -1,6 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { LayoutDashboard, BarChart3, Wallet, Activity, Settings, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ModeToggle } from '@/components/mode-toggle';
+import { usePersonalization } from '@/hooks/use-personalization';
+import { Badge } from '@/components/ui/badge';
 
 const navigation = [
     { name: 'Overview', href: '/', icon: LayoutDashboard },
@@ -8,12 +13,6 @@ const navigation = [
     { name: 'Lending', href: '/lending', icon: Wallet },
     { name: 'Monitoring', href: '/monitoring', icon: Activity },
 ];
-
-import { ModeToggle } from '@/components/mode-toggle';
-import { usePersonalization } from '@/hooks/use-personalization';
-import { Badge } from '@/components/ui/badge';
-
-// ... imports
 
 export default function DashboardLayout({
     children,

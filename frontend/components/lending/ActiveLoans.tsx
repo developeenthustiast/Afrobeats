@@ -17,7 +17,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { AlertTriangle, TrendingUp, Clock, DollarSign } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { useActiveLoans } from '@/lib/hooks/useActiveLoans';
+import { useActiveLoans } from '@/lib/hooks/useLending';
 import { formatCurrency } from '@/lib/utils';
 
 export function ActiveLoans() {
@@ -107,6 +107,7 @@ export function ActiveLoans() {
 
                         <TableBody>
                             {loans.map((loan) => {
+                                if (!loan) return null;
                                 const repaidPercent = (loan.repaidAmount / loan.totalRepayment) * 100;
                                 const daysLeft = Math.max(0, Math.floor(
                                     (loan.startTime + loan.duration - Date.now() / 1000) / 86400
@@ -232,36 +233,39 @@ export function ActiveLoans() {
 
                 {/* Mobile Card View */}
                 <div className="md:hidden space-y-4">
-                    {loans.map((loan) => (
-                        <Card key={loan.loanId}>
-                            <CardContent className="p-4 space-y-3">
-                                <div className="flex justify-between items-start">
-                                    <div>
-                                        <div className="font-medium">{loan.songTitle}</div>
-                                        <div className="text-xs text-gray-500">Loan #{loan.loanId}</div>
+                    {loans.map((loan) => {
+                        if (!loan) return null;
+                        return (
+                            <Card key={loan.loanId}>
+                                <CardContent className="p-4 space-y-3">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <div className="font-medium">{loan.songTitle}</div>
+                                            <div className="text-xs text-gray-500">Loan #{loan.loanId}</div>
+                                        </div>
+                                        {getStatusBadge(loan.status)}
                                     </div>
-                                    {getStatusBadge(loan.status)}
-                                </div>
 
-                                <div className="grid grid-cols-2 gap-3 text-sm">
-                                    <div>
-                                        <div className="text-gray-500 text-xs">Principal</div>
-                                        <div className="font-medium">{formatCurrency(loan.principal)}</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-gray-500 text-xs">Health Factor</div>
-                                        <div className={`font-medium ${loan.healthFactor >= 1.2 ? 'text-green-600' : 'text-yellow-600'}`}>
-                                            {loan.healthFactor.toFixed(2)}x
+                                    <div className="grid grid-cols-2 gap-3 text-sm">
+                                        <div>
+                                            <div className="text-gray-500 text-xs">Principal</div>
+                                            <div className="font-medium">{formatCurrency(loan.principal)}</div>
+                                        </div>
+                                        <div>
+                                            <div className="text-gray-500 text-xs">Health Factor</div>
+                                            <div className={`font-medium ${loan.healthFactor >= 1.2 ? 'text-green-600' : 'text-yellow-600'}`}>
+                                                {loan.healthFactor.toFixed(2)}x
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <Progress value={(loan.repaidAmount / loan.totalRepayment) * 100} />
+                                    <Progress value={(loan.repaidAmount / loan.totalRepayment) * 100} />
 
-                                <Button size="sm" className="w-full">Repay</Button>
-                            </CardContent>
-                        </Card>
-                    ))}
+                                    <Button size="sm" className="w-full">Repay</Button>
+                                </CardContent>
+                            </Card>
+                        );
+                    })}
                 </div>
             </CardContent>
         </Card>

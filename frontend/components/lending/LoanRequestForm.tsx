@@ -15,8 +15,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, TrendingUp, Clock, DollarSign } from 'lucide-react';
-import { useLoanCalculator } from '@/lib/hooks/useLoanCalculator';
-import { useUserNFTs } from '@/lib/hooks/useUserNFTs';
+import { useLoanCalculator } from '@/lib/hooks/useLending';
+import { useUserNFTs } from '@/lib/hooks/useLending';
 
 const DURATIONS = [
     { label: '30 Days', value: 30 * 24 * 60 * 60 },
