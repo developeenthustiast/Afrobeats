@@ -2,7 +2,8 @@
 
 > Empowering African artists with blockchain-powered music rights management and royalty distribution.
 
-**Live Demo**: [https://afrobeats1.vercel.app](https://afrobeats1.vercel.app)
+**Live Demo**: [https://afrobeats1.vercel.app]
+**Youtube Demo**: [https://youtu.be/IpP4PKyeG_s]
 
 ---
 
@@ -304,4 +305,4 @@ Big thanks to:
 
 ---
 
-Built with ❤️ for African artists, by developers who believe music should be fair, transparent, and decentralized.
+Built for African artists, by developers who believe music should be fair, transparent, and decentralized.
